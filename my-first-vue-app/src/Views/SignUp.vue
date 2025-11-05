@@ -1,3 +1,3 @@
 <template>
-  <RouterView />
+    <h1>Signup</h1>
 </template>

@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required,  get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_cors import CORS
 
 
 app = Flask(__name__)
@@ -13,7 +14,7 @@ app.config["JWT_SECRET_KEY"] = "super-secret"
 api = Api(app)
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
-
+CORS(app)
 
 
 
@@ -48,9 +49,13 @@ class Appointment(db.Model):
     date_time = db.Column(db.String(100))
     status = db.Column(db.String(100)) # complete, cancel
     notes = db.Column(db.String(200))
+    description = db.Column(db.String(200), nullable=False)
+    
+
 
 
 with app.app_context():
+    # db.delete_all()
     db.create_all()
 
 
@@ -59,7 +64,7 @@ with app.app_context():
 
 class HelloWorld(Resource):
     def get(self):
-        return {'hello': 'world'}
+        return {"msg":'hello world!'}
     
     def post(self):
         return {'post': 'hello world!'}
@@ -82,7 +87,7 @@ class Register(Resource):
         # user_id = 1
         # user = User.query.get(user_id)
 
-        return {'user':user, 'msg':'', 'error':''}, 200
+        return {'user':user.to_json(), 'msg':'', 'error':''}, 200
 
     def post(self):
         data = request.get_json()
@@ -152,9 +157,9 @@ class DoctorResource(Resource):
         db.session.delete(doctor)
         db.session.commit()
         return {'msg':'doctor deleted'}
+    
+
 api.add_resource(DoctorResource, '/doctor', '/doctor/<int:doctor_id>')
-
-
 api.add_resource(HelloWorld, '/')
 api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
