@@ -60,14 +60,12 @@ with app.app_context():
 
 
 
-
-
 class HelloWorld(Resource):
     def get(self):
         return {"msg":'hello world!'}
     
     def post(self):
-        return {'post': 'hello world!'}
+        return {'msg': 'hello world from post method!'}
 
 
 class Register(Resource):
@@ -87,7 +85,7 @@ class Register(Resource):
         # user_id = 1
         # user = User.query.get(user_id)
 
-        return {'user':user.to_json(), 'msg':'', 'error':''}, 200
+        return {'user':user.to_json(), 'msg':'successfully fetched user', 'error':''}, 200
 
     def post(self):
         data = request.get_json()
@@ -167,4 +165,4 @@ api.add_resource(Login, '/login')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

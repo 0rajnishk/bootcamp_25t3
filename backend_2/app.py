@@ -3,8 +3,8 @@ from config import Config
 from extensions import db, jwt, api
 from flask_cors import CORS
 
-# Import routes to register resources onto `api`
-import routes  # noqa: F401 - modules register resources at import time
+# Import routes to register resources onto api
+import routes 
 
 
 def create_app():
