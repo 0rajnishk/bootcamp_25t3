@@ -8,7 +8,7 @@ from auth import Register, Login
 
 class HelloWorld(Resource):
     def get(self):
-        return {'hello': 'world'}
+        return {'msg': 'Hello world!'}
 
     def post(self):
         return {'post': 'hello world!'}
